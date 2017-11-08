@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">静一哈</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
+    <string name="item1">看爸爸的帅照</string>
+    <string name="item2">切换夜间模式</string>
+    <string name="item3">关于我们</string>
+    <string name="item4">反馈</string>
+    <string name="imy">我</string>
+    <string name="developer">平心静气</string>
+    <string name="developer_email">jiayp@shdcec.com</string>
+
+    <string name="hint_name">用户名/邮箱/手机号</string>
+    <string name="action_backup">保存</string>
+    <string name="action_delete">删除</string>
+    <string name="action_settings">设置</string>
+    <string name="navigation_drawer_close">关闭滑动导航</string>
+    <string name="navigation_drawer_open">打开滑动导航</string>
+    <string name="drawer_slideshow">显示</string>
+    <string name="drawer_import">进入</string>
+
+    <string name="drawer_communicate">通讯</string>
+    <string name="drawer_send">发送</string>
+    <string name="drawer_share">分享</string>
+    <string name="drawer_tools">工具</string>
+
+
+    <string name="hint_password">密码</string>
+    <string name="error_pswd_empty">密码错误</string>
+    <string name="login">登陆</string>
+    <string name="user_login">用户登录</string>
+    <string name="error_login_empty">账号错误,格式不正确</string>
+
+    <string name="snackbar_indefinitely">无限期显示Snackbar</string>
+    <string name="snackbar_long">在Long时间段内显示Snackbar</string>
+    <string name="snackbar_short">在short时间段内显示Snackbar</string>
+    <string name="snackbar_action">设置Snackbar的action</string>
+    <string name="snackbar_color">自定义Snackbar的文字颜色</string>
+    <string name="go_to_snackbaraction">进入SnackBar演示</string>
+
+    <string name="update_app">检查APP更新</string>
+    <string name="Waiting_adding">待添加...</string>
+
+</resources>

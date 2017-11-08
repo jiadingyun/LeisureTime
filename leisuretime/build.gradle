@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        applicationId "com.yaping.leisureTime"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 4
+        versionName "4.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile files('libs/volley.jar')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    //TabLayout,NavigationView，抽屉式导航
+    compile 'com.android.support:design:26.1.0'
+    //@butterknife(初始化控件)
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //TabLayout案例
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.8@aar'
+    //圆形图片
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.orhanobut:logger:1.15'
+    implementation 'com.github.bumptech.glide:glide:4.3.0'
+}
