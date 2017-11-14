@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.yaping.leisureTime"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 4
         versionName "4.0"
@@ -43,4 +43,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.orhanobut:logger:1.15'
     implementation 'com.github.bumptech.glide:glide:4.3.0'
+    compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
 }

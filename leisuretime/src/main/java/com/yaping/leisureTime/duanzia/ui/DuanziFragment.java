@@ -4,15 +4,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.zhouwei.library.CustomPopWindow;
 import com.yaping.leisureTime.R;
 import com.yaping.leisureTime.duanzia.Bean.DuanziBean;
 import com.yaping.leisureTime.duanzia.api.DuanziApi;
@@ -20,9 +23,11 @@ import com.yaping.leisureTime.duanzia.api.DuanziApi;
 import com.yaping.leisureTime.netUtil.OkHttpHelper;
 import com.yaping.leisureTime.netUtil.mGsonHelper;
 import com.yaping.leisureTime.netUtil.mOkHttpResponseCallback;
+import com.yaping.leisureTime.recyclerViewUtil.OnItemLongClickListener;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,6 +45,8 @@ public class DuanziFragment extends Fragment {
     @BindView(R.id.duanzi_refresh)
     SwipeRefreshLayout mRefresh;
 
+    private CustomPopWindow popWindow;
+
     public static DuanziFragment newInstance() {
         return new DuanziFragment();
     }
@@ -55,9 +62,7 @@ public class DuanziFragment extends Fragment {
         return view;
     }
 
-    /**
-     * 下拉刷新
-     *///下拉刷新
+
     private void initRefresh() {
         mRefresh.setColorSchemeResources(R.color.colorPrimary);
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -69,9 +74,6 @@ public class DuanziFragment extends Fragment {
         });
     }
 
-    /**
-     * 加载控件
-     *///加载控件
     private void initView() {
         //请求网络数据
         OkHttpHelper.sendRequestWithOkHttp(DuanziApi.GET_DUANZI, new mOkHttpResponseCallback() {
@@ -84,12 +86,36 @@ public class DuanziFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        if (mDuanziBeanList.size() > 4) {
-//                            mDuanziBeanList.remove(3);
-//                        }
                         //配置适配器
                         mRvShowDuanzhi.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        mRvShowDuanzhi.setAdapter(new DuanziAdapter(DuanziFragment.this, mDuanziBeanList));
+                        DuanziAdapter duanziAdapter = new DuanziAdapter(getActivity(),DuanziFragment.this, mDuanziBeanList);
+                        mRvShowDuanzhi.setAdapter(duanziAdapter);
+                        //添加分割线
+                        mRvShowDuanzhi.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+                        duanziAdapter.setmOnItemLongClickListener(new OnItemLongClickListener() {
+                            @Override
+                            public void OnItemLongClick(View view, int position) {
+                                int[] location = new int[2];
+                                view.getLocationOnScreen(location);//获取被点击控件的坐标
+                                //pop菜单
+                                //弹出点击菜单
+                                View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_layout1,null);
+                                //处理popWindow 显示内容
+                                handleLogic(contentView);
+
+                                popWindow = new CustomPopWindow.PopupWindowBuilder(getActivity())
+                                        .setView(contentView)//显示的布局
+                                        .setFocusable(true)//是否获取焦点，默认为ture
+                                        .create();//创建PopupWindow
+                                int[] popLocation = new int[]{popWindow.getWidth(),popWindow.getWidth()};
+//                                        .showAsDropDown(view,view.getWidth()/2-100,-view.getHeight()/2);//显示PopupWindow
+                                //根据Item位置定位pop的坐标
+//                                popWindow.showAtLocation(view, Gravity.TOP|Gravity.START,location[0]+view.getWidth()/2-popLocation[0]/2,location[1]+view.getHeight()/2);
+                                popWindow.showAtLocation(view, Gravity.TOP|Gravity.START,location[0]+view.getWidth()/2-popLocation[0]/2,location[1]+view.getHeight()/2);
+
+                            }
+                        });
+
                     }
                 });
             }
@@ -98,6 +124,29 @@ public class DuanziFragment extends Fragment {
                 Toast.makeText(getActivity(),"请求数据失败:"+e,Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void handleLogic(View contentView){
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popWindow!=null){
+                    popWindow.dissmiss();
+                }
+                String showContent = "";
+                switch (v.getId()){
+                    case R.id.menu1:
+                        showContent = "点击 Item菜单1";
+                        break;
+                    case R.id.menu2:
+                        showContent = "点击 Item菜单2";
+                        break;
+                }
+                Toast.makeText(getActivity(),showContent,Toast.LENGTH_SHORT).show();
+            }
+        };
+        contentView.findViewById(R.id.menu1).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu2).setOnClickListener(listener);
     }
 
 }
